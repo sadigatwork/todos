@@ -38,3 +38,24 @@ clearBtn.textContent = "Clear All Tasks";
 clearBtn.className = "bg-red-500 text-white p-2 mt-2";
 clearBtn.onclick = clearTasks;
 document.body.appendChild(clearBtn);
+
+function exportTasks() {
+  const tasks = [];
+  document
+    .querySelectorAll("#taskList li")
+    .forEach((li) => tasks.push(li.textContent));
+
+  const jsonData = JSON.stringify({ tasks });
+  const blob = new Blob([jsonData], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "tasks.json";
+  a.click();
+}
+
+// زر تصدير المهام إلى JSON
+const exportBtn = document.createElement("button");
+exportBtn.textContent = "Export Tasks";
+exportBtn.className = "bg-green-500 text-white p-2 mt-2";
+exportBtn.onclick = exportTasks;
+document.body.appendChild(exportBtn);
