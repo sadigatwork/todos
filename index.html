@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>تطبيق ادارة المهام</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="app.js" defer></script>
   </head>
   <body class="bg-gray-100 min-h-screen flex items-center justify-center">
     <div class="bg-white p-6 rounded shadow-md w-96">
@@ -18,11 +19,13 @@
         placeholder="أدخل مهمة جديدة"
       />
       <button
+        onclick="addTask()"
         class="bg-green-600 text-white p-2 rounded w-full"
         id="addTaskButton"
       >
         إضافة مهمة
       </button>
+      <ul id="taskList" class="mt-4"></ul>
     </div>
   </body>
 </html>
