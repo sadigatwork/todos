@@ -1,61 +1,72 @@
-function addTask() {
+document.addEventListener("DOMContentLoaded", () => {
   const taskInput = document.getElementById("taskInput");
   const taskList = document.getElementById("taskList");
-  if (taskInput.value.trim()) {
+  const clearTasksBtn = document.getElementById("clearTasksBtn");
+  const exportTasksBtn = document.getElementById("exportTasksBtn");
+
+  // Function to add a task with delete button
+  window.addTask = function () {
+    if (taskInput.value.trim() === "") return;
+
     const li = document.createElement("li");
-    li.className = "bg-gray-100 p-2 rounded mb-2 flex justify-between";
-    li.innerHTML = `
-      ${taskInput.value}
-      <button onclick="this.parentElement.remove()" class="text-red-500">✕</button>
-    `;
+    li.className = "flex justify-between items-center p-2 border-b";
+
+    const taskText = document.createElement("span");
+    taskText.textContent = taskInput.value;
+    taskText.className = "cursor-pointer";
+    taskText.addEventListener("click", () => editTask(taskText));
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "❌";
+    deleteBtn.className = "ml-2 text-red-500";
+    deleteBtn.onclick = () => li.remove();
+
+    li.appendChild(taskText);
+    li.appendChild(deleteBtn);
     taskList.appendChild(li);
+
     taskInput.value = "";
+  };
+
+  // Function to edit a task using an input field
+  function editTask(taskItem) {
+    const input = document.createElement("input");
+    input.type = "text";
+    input.value = taskItem.textContent;
+    input.className = "border p-1 text-black";
+    input.addEventListener("blur", () => saveTaskEdit(taskItem, input)); // Save when user clicks outside
+
+    taskItem.replaceWith(input);
+    input.focus();
   }
-}
 
-function editTask(index) {
-  const listItems = document.querySelectorAll("#taskList li");
-  const taskText = listItems[index].textContent;
-
-  const newText = prompt("Edit task:", taskText);
-  if (newText !== null && newText.trim() !== "") {
-    listItems[index].textContent = newText;
+  function saveTaskEdit(taskItem, input) {
+    if (input.value.trim() !== "") {
+      taskItem.textContent = input.value;
+      input.replaceWith(taskItem);
+      taskItem.addEventListener("click", () => editTask(taskItem));
+    } else {
+      input.replaceWith(taskItem); // Restore if empty
+    }
   }
-}
 
-// تعديل عنصر عند النقر عليه
-document.querySelectorAll("#taskList li").forEach((li, index) => {
-  li.addEventListener("dblclick", () => editTask(index));
+  // Function to clear all tasks
+  clearTasksBtn.addEventListener("click", () => {
+    taskList.innerHTML = "";
+  });
+
+  // Function to export tasks to JSON
+  exportTasksBtn.addEventListener("click", () => {
+    const tasks = [];
+    document
+      .querySelectorAll("#taskList span")
+      .forEach((span) => tasks.push(span.textContent));
+
+    const jsonData = JSON.stringify({ tasks });
+    const blob = new Blob([jsonData], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "tasks.json";
+    a.click();
+  });
 });
-
-function clearTasks() {
-  document.getElementById("taskList").innerHTML = "";
-}
-
-// زر لحذف جميع المهام
-const clearBtn = document.createElement("button");
-clearBtn.textContent = "Clear All Tasks";
-clearBtn.className = "bg-red-500 text-white p-2 mt-2";
-clearBtn.onclick = clearTasks;
-document.body.appendChild(clearBtn);
-
-function exportTasks() {
-  const tasks = [];
-  document
-    .querySelectorAll("#taskList li")
-    .forEach((li) => tasks.push(li.textContent));
-
-  const jsonData = JSON.stringify({ tasks });
-  const blob = new Blob([jsonData], { type: "application/json" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "tasks.json";
-  a.click();
-}
-
-// زر تصدير المهام إلى JSON
-const exportBtn = document.createElement("button");
-exportBtn.textContent = "Export Tasks";
-exportBtn.className = "bg-green-500 text-white p-2 mt-2";
-exportBtn.onclick = exportTasks;
-document.body.appendChild(exportBtn);
