@@ -125,9 +125,10 @@ function addTask() {
   if (input.value.trim()) return;
 
   const li = document.createElement("li");
-  li.className = "bg-grey-100 p-2 rounded mb-2";
+
+  li.className = "bg-gray-100 p-2 rounded mb-2 flex justify-between";
   li.innerHTML = `
-      ${input.value}
+      ${taskInput.value}
       <button onclick="this.parentElement.remove()" class="text-red-500">✕</button>
     `;
   taskList.appendChild(li);
