@@ -27,3 +27,14 @@ function editTask(index) {
 document.querySelectorAll("#taskList li").forEach((li, index) => {
   li.addEventListener("dblclick", () => editTask(index));
 });
+
+function clearTasks() {
+  document.getElementById("taskList").innerHTML = "";
+}
+
+// زر لحذف جميع المهام
+const clearBtn = document.createElement("button");
+clearBtn.textContent = "Clear All Tasks";
+clearBtn.className = "bg-red-500 text-white p-2 mt-2";
+clearBtn.onclick = clearTasks;
+document.body.appendChild(clearBtn);
