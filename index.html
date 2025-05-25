@@ -4,11 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>تطبيق ادارة المهام</title>
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body>
+  <body class="bg-gray-100 min-h-screen flex items-center justify-center">
     <div>
-      <h1>تطبيق ادارة المهام</h1>
-      <input type="text" id="taskInput" placeholder="أدخل مهمة جديدة" />
+      <h1 class="text-2xl text-green-600 font-bold mb-4">تطبيق ادارة المهام</h1>
+      <input
+        class="border border-gray-300 p-2 rounded mb-4 w-full"
+        type="text"
+        id="taskInput"
+        placeholder="أدخل مهمة جديدة"
+      />
       <button id="addTaskButton">إضافة مهمة</button>
     </div>
   </body>
