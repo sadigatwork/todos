@@ -12,3 +12,18 @@ function addTask() {
     taskInput.value = "";
   }
 }
+
+function editTask(index) {
+  const listItems = document.querySelectorAll("#taskList li");
+  const taskText = listItems[index].textContent;
+
+  const newText = prompt("Edit task:", taskText);
+  if (newText !== null && newText.trim() !== "") {
+    listItems[index].textContent = newText;
+  }
+}
+
+// تعديل عنصر عند النقر عليه
+document.querySelectorAll("#taskList li").forEach((li, index) => {
+  li.addEventListener("dblclick", () => editTask(index));
+});
